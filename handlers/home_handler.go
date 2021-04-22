@@ -7,8 +7,10 @@ import (
 
 func HomeHandler(c echo.Context) error { 
   return c.Render(http.StatusOK, "layout.html", map[string]interface{}{
-    "name": "HOME",
-    "msg": "I'm home",
+    "title": "Mocacinno's usefull bitcoin tools",
+    "description": "The 2021 version of mocacinno's usefull bitcoin tools",
+    "keywords": "mocacinno, usefull, bitcoin, tools, btc",
+    "content": "This website contains the new version of mocacinno's usefull bitcoin tools",
   })
   
 }
