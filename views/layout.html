@@ -1,9 +1,282 @@
-{{define "title"}}
-  Boatswain Blog | {{index . "name"}}
-{{end}}
+{{index . "title"}}
+{{index . "description"}}
+{{index . "keywords"}}
 
-{{define "body"}}
-  <h1>{{index . "msg"}}</h1>
-  <h2>This is the home page from template.</h2>
-{{end}}
-blahlah {{index . "name"}}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>
+			{{index . "title"}}
+		</title>
+		<meta name="description" content="{{index . "description"}}">
+		<meta name="keywords" content="{{index . "keywords"}}">
+		<meta name="robots" content="index, follow">
+		<meta name="web_author" content="Mocacinno">
+		<meta name="language" content="english">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="./static/main.css">
+		<script type="text/javascript" src="./static/jquery.min.js"></script>
+		<script type="text/javascript" src="./static/pay-now-button.js"></script>
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="theme-color" content="#ffffff">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="main">
+				<div class="inner">
+					<header id="header">
+						<a href="/" class="logo"><strong>Mocacinno's</strong>
+							usefull bitcoin tools
+						</a>
+						<ul class="icons">
+							<li>
+								<a href="https://twitter.com/mocacinno_BTC" class="icon fa-twitter">
+									<span class="label">
+										Twitter
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="https://github.com/mocacinno" class="icon fa-github">
+									<span class="label">
+										Github
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="https://reddit.com/user/mocacinno_BTC" class="icon fa-reddit">
+									<span class="label">
+										Reddit
+									</span>
+								</a>
+							</li>
+						</ul> 
+					</header>
+					<section id="banner">
+						<div class="content">
+							<header>
+								<h1>
+									{{index . "title"}}
+								</h1>
+								<p>
+									{{index . "description"}}
+								</p>
+							</header>
+							<p>
+								{{index . "content"}}
+							</p>
+							<p>
+								<h6>payed ad listing:</h6>
+							</p>
+						</div>
+						<span class="image object">
+							<img src="./static/Bitcoin-Symbol.png" alt="Bitcoin symbol">
+						</span>
+					</section>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="inner">
+					<nav id="menu">
+						<header class="major">
+							<h2>
+								Menu
+							</h2>
+						</header>
+						<ul>
+							<li>
+								<a href="/">Homepage</a>
+							</li>
+							<li>
+								<a href="./page/feechecker">(in)Sufficient Fee Checker</a>
+							</li>
+							<li>
+								<span class="opener">
+									Transaction functions
+								</span>
+								<ul>
+									<li>
+										<a href="./page/feechecker">
+											(in)Sufficient Fee Checker
+										</a>
+									</li>
+									<li>
+										<a href="./page/getraw">
+											Get raw transaction
+										</a>
+									</li>
+									<li>
+										<a href="./page/rawdecode">
+											Raw transaction decoder
+										</a>
+									</li>
+									<li>
+										<a href="./page/createraw">
+											Raw transaction generator
+										</a>
+									</li>
+									<li>
+										<a href="./page/txpusher">
+											Push a signed transaction
+										</a>
+									</li>
+									<li>
+										<a href="./page/feeestimate">
+											fee estimator
+										</a>
+									</li>
+									<li>
+										<a href="./page/block">
+											Block estimator
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<span class="opener">
+									Signature functions
+								</span>
+								<ul>
+									<li>
+										<a href="./page/sigcheck">
+											Sig checker
+										</a>
+									</li>
+									<li>
+										<a href="./page/validate">
+											Address validator
+										</a>
+									</li>
+									<li>
+										<a href="./page/timestamp">
+											Sign a timestamped message
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<span class="opener">
+									Bitcoin mining
+								</span>
+								<ul>
+									<li>
+										<a href="./mining/" target="_blank">
+											profitability checker
+										</a>
+									</li>
+									<li>
+										<a href="./mining/index2.php" target="_blank">
+											cumulative income
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<span class="opener">
+									The lightning network
+								</span>
+								<ul>
+									<li>
+										<a href="./lightning/" target="_blank">
+											Mainnet lightning network: spend 25 sat to unblur images
+										</a>
+									</li>
+									<li>
+										<a href="./lightning/walktrough_eclair_android.php" target="_blank">
+											LN walktrough
+										</a>
+									</li>
+									<li>
+										<a href="http://lntestnet.mocacinno.com/" target="_blank">
+											Testnet lightning network test: unblur images with testnet coins
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="./page/links">
+									Usefull links
+								</a>
+							</li>
+							<li>
+								<a href="./blog" target="_blank"
+									>My blog
+								</a>
+							</li>
+							<li>
+								<a href="./page/privacy">
+									Privacy policy/TOS
+								</a>
+							</li>
+						</ul>
+					</nav>
+
+
+					<section>
+						<header class="major">
+							<h2>
+								Get in touch (or not)
+							</h2>
+						</header>
+						<p>
+							Just like most crypto currency enthousiasts, i prefer to remain anonymous... However, you can contact me using following ways
+						</p>
+						<ul class="contact">
+							<li class="fa-envelope-o">
+								mocacinno[ a t ]protonmail[ d o t ]com
+							</li>
+							<li class="fa-twitter">
+								<a href="https://www.twitter.com/mocacinno_BTC">
+									twitter
+								</a>
+							</li>
+							<li class="fa-github">
+								<a href="https://github.com/mocacinno">
+									github
+								</a>
+							</li>
+							<li class="fa-reddit">
+								<a href="https://reddit.com/user/mocacinno_BTC">
+									reddit
+								</a>
+							</li>
+							<li class="fa-comment-o">
+								<a href="https://bitcointalk.org/index.php?action=profile;u=405464">
+									Bitcointalk
+								</a>
+							</li>
+							<li class="fa-comment-o">
+								<a href="https://forum.bitcoin.com/mocacinno-u14066/">
+									forum.bitcoin.com
+								</a>
+							</li>
+							<li class="fa-shield">
+								<a href="https://keybase.io/mocacinno/">
+									keybase
+								</a>
+							</li>
+							<li class="fa-btc">
+								<a href="https://blockchain.info/address/1MocACiWLM8bYn8pCrYjy6uHq4U3CkxLaa">
+									Tipjar: 1MocACiWLM8bYn8pCrYjy6uHq4U3CkxLaa
+								</a>
+							</li>
+						</ul>
+					</section>
+					<footer id="footer">
+						<p class="copyright">
+							© Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com/">Unsplash</a>. Design: <a href="https://html5up.net/">HTML5 UP</a>
+						</p>
+					</footer>
+				</div>
+				<a href="https://www.mocacinno.com/#sidebar" class="toggle">
+					Toggle
+				</a>
+			</div>
+		</div>
+		<script src="./static/jquery.min.js" type="text/javascript"></script>
+		<script src="./static/skel.min.js" type="text/javascript"></script>
+		<script src="./static/util.js" type="text/javascript"></script>
+		<script src="./static/main.js" type="text/javascript"></script>
+	</body>
+</html>

@@ -29,6 +29,7 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 	
 	
 	e.GET("/", handler.HomeHandler)
+	/*
 	e.GET("/page/feechecker/", handler.FeeCheckerHandler)
 	e.GET("/page/getraw/", handler.GetRawHandler)
 	e.GET("/page/rawdecode/", handler.RawDecodeHandler)
@@ -40,7 +41,7 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 	e.GET("/page/validate/", handler.ValidateSigHandler)
 	e.GET("/page/timestamp/", handler.TimestampedMessageHandler)
     e.GET("/page/links/", handler.UsefullLinksHandler)
-
+	*/
 	e.Static("/static", "staticfiles")
 	e.Logger.Fatal(e.Start("0.0.0.0:1323"))
 }
