@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io"
 	"./handlers"
+	"./mocacinno"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -29,8 +30,9 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 	
 	
 	e.GET("/", handler.HomeHandler)
-	/*
 	e.GET("/page/feechecker/", handler.FeeCheckerHandler)
+	e.POST("/page/feechecker/", mocacinno.FeeCheckerHandler)
+	/*
 	e.GET("/page/getraw/", handler.GetRawHandler)
 	e.GET("/page/rawdecode/", handler.RawDecodeHandler)
     e.GET("/page/createraw/", handler.CreateRawHandler)
