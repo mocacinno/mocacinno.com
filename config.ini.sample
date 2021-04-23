@@ -1,0 +1,10 @@
+[bitcoind]
+host = localhost
+port = 8332
+user = <your user here>
+password = <your password here>
+
+[server]
+ip = <your ip here>
+port = <your port here>
+logging = true
