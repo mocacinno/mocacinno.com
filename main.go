@@ -66,5 +66,5 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
     e.GET("/page/links/", handler.UsefullLinksHandler)
 	*/
 	e.Static("/static", "staticfiles")
-	e.Logger.Fatal(e.Start(cfg.Section("server").Key("ip").String() + ":" + cfg.Section("server").Key("port").String()))
+	e.Logger.Fatal(e.StartTLS(cfg.Section("server").Key("ip").String() + ":" + cfg.Section("server").Key("port").String(), "/home/webserver/fullchain1.pem", "/home/webserver/privkey1.pem"))
 }
