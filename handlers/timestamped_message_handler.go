@@ -2,7 +2,7 @@ package handler
 
 import (
   "net/http"
-  "github.com/labstack/echo/v4"
+  "github.com/labstack/echo"
 )
 
 func TimestampedMessageHandler(c echo.Context) error { 
