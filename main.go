@@ -7,6 +7,9 @@ import (
 	"./mocacinno"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"fmt"
+	"gopkg.in/ini.v1"
+	"os"
 )
 
 type TemplateRegistry struct {
@@ -18,10 +21,23 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
   }
 
   func main() {
+
+
+	cfg, err := ini.Load("config.ini")
+    if err != nil {
+        fmt.Printf("Fail to read ini file: %v", err)
+        os.Exit(1)
+    }
+
+
 	e := echo.New()
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-        Format: "method=${method}, uri=${uri}, status=${status}, time=${time_unix}, remote_ip=${remote_ip}, host=${host}, path=${path}, protocol=${protocol}, user_agent=${user_agent}, error=${error}, bytes_in=${bytes_in}, bytes_out=${bytes_out}, header=${header}, query=${query}, form=${form}\n\n",
-    }))
+	logging, err := cfg.Section("server").Key("logging").Bool()
+	if logging {
+		e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_unix}, remote_ip=${remote_ip}, host=${host}, path=${path}, protocol=${protocol}, user_agent=${user_agent}, error=${error}, bytes_in=${bytes_in}, bytes_out=${bytes_out}, header=${header}, query=${query}, form=${form}\n\n",
+		}))
+	}
+	
 	e.Pre(middleware.AddTrailingSlash())
 
 	e.Renderer = &TemplateRegistry{
@@ -32,6 +48,11 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 	e.GET("/", handler.HomeHandler)
 	e.GET("/page/feechecker/", handler.FeeCheckerHandler)
 	e.POST("/page/feechecker/", mocacinno.FeeCheckerHandler)
+	/*
+	client := mocacinno.Client(cfg)
+	blockcount := mocacinno.Blockcount(client)
+	fmt.Printf("%v\n", blockcount) 
+	*/
 	/*
 	e.GET("/page/getraw/", handler.GetRawHandler)
 	e.GET("/page/rawdecode/", handler.RawDecodeHandler)
@@ -45,5 +66,5 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
     e.GET("/page/links/", handler.UsefullLinksHandler)
 	*/
 	e.Static("/static", "staticfiles")
-	e.Logger.Fatal(e.Start("0.0.0.0:1323"))
+	e.Logger.Fatal(e.Start(cfg.Section("server").Key("ip").String() + ":" + cfg.Section("server").Key("port").String()))
 }
