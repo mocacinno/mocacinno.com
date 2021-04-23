@@ -6,9 +6,7 @@ import (
   "gopkg.in/ini.v1"
   "fmt"
   "os"
-  "github.com/btcsuite/btcd/blockchain"
-  "bytes"
-  //"html/template"
+  "html/template"
 )
 
 func FeeCheckerHandler(c echo.Context) error { 
@@ -18,77 +16,39 @@ func FeeCheckerHandler(c echo.Context) error {
         os.Exit(1)
     }
   txid := c.FormValue("txid")
+  output := fmt.Sprintf("<ul><li>your tx id is %v</li>", txid)
   client := Client(cfg)
-  rawtx, err := Rawtx(client, txid)
-  if err !=nil {
-    return c.String(http.StatusOK, txid + " not found") 
+  
+
+  fee_1, err := client.EstimateSmartFee(6, nil)
+  if err != nil {
+    return c.String(http.StatusOK, txid + " my node could not determine the smart fee (6 blocks)") 
   }
-  
-  fmt.Printf("client (handler) : %+v\n\n", client)
-  fmt.Printf("client type (handler) : %T\n\n", client)
-
-  fmt.Printf("rawtx (handler) : %+v\n\n", rawtx)
-  fmt.Printf("rawtx type (handler) : %T\n\n", rawtx)
-  
-  msgtx := rawtx.MsgTx()
-  
-  fmt.Printf("msgtx (handler) : %+v\n\n", msgtx)
-  fmt.Printf("msgtx type (handler) : %T\n\n", msgtx)
-  
-
-  txhex := TxToHex(msgtx)
-  
-  fmt.Printf("txhex (handler) : %+v\n\n", txhex)
-  fmt.Printf("txhex type (handler) : %T\n\n", txhex)
-  
-
-  weight := blockchain.GetTransactionWeight(rawtx)
-  
-  fmt.Printf("weight (handler) : %+v\n\n", weight)
-  fmt.Printf("weight type (handler) : %T\n\n", weight)
-  
-	blockcount := Blockcount(client)
-	fmt.Printf("blockcount (handler) : %v\n", blockcount) 
-  fmt.Printf("blockcount type(handler) : %T\n", blockcount) 
-
-  baseSize := msgtx.SerializeSizeStripped()
-  fmt.Printf("baseSize (handler) : %v\n", baseSize) 
-  fmt.Printf("baseSize type(handler) : %T\n", baseSize) 
-  totalSize := msgtx.SerializeSize()
-  fmt.Printf("totalSize (handler) : %v\n", totalSize) 
-  fmt.Printf("totalSize type(handler) : %T\n", totalSize) 
-  altweight := int64((baseSize * (4 - 1)) + totalSize)
-  fmt.Printf("altweight (handler) : %v\n", altweight) 
-  fmt.Printf("altweight type(handler) : %T\n", altweight) 
-
-
-  fee_1, err := client.EstimateSmartFee(1, nil)
   fee_1_result := fee_1.FeeRate
-  fmt.Printf("fee_1_result (handler) : %v\n", *fee_1_result) 
-  fmt.Printf("fee_1_result type(handler) : %T\n", *fee_1_result)
+  fee_1_per_vbyte := *fee_1_result * float64(100000)
+  output += fmt.Sprintf("<li>the optimal fee per vbyte to be ~rather~ sure your tx ends up in the next ~6 blocks is: %v sat/vbyte</li>", fee_1_per_vbyte)
+  mempoolentry, err := client.GetMempoolEntry(txid)
+  if err != nil {
+    return c.String(http.StatusOK, txid + " not found in my mempool") 
+  }
+  vsize := mempoolentry.VSize
+  output += fmt.Sprintf("<li>your vsize (in vbytes) is %v</li>", vsize)
+  payedfee := mempoolentry.Fee * float64(100000000)
+  output += fmt.Sprintf("<li>your payed a fee of  %v sats</li>", payedfee)
+  payedsatpervbyte := int32(payedfee) / vsize
+  output += fmt.Sprintf("<li>which boils down to %v sats/vbyte</li>", payedsatpervbyte)
+  if int32(payedsatpervbyte) > int32(fee_1_per_vbyte) {
+    output += fmt.Sprintf("<li>your fee is high enough... yeey!!!</li></ul>")
+  } else {
+    output += fmt.Sprintf("<li>Oooooooops.... that's not enough i'm afraid... I guess you'll have to wait untill the mempool clears a little bit OR if you opted in RBF you can bump your fee, or you can do a CPFP, or pay a big mining pool to include your tx in the block they're trying to solve right now</li></ul>")
+  }
 
-  
-  //buf := make([]byte, 0, msgtx.Serialize())
-	buf := bytes.NewBuffer(make([]byte, 0, msgtx.SerializeSize()))
-	msgtx.Serialize(buf)
+  return c.Render(http.StatusOK, "layout.html", map[string]interface{}{
+    "title": "(in)Sufficient Fee checker: outcome for tx " + txid,
+    "description": "here, you'll see the output of my feechecker!!!",
+    "keywords": "mocacinno, usefull, bitcoin, tools, btc, fee, checker",
+    "content": template.HTML(output),
+  })
 
-  decoderawtx, err := client.DecodeRawTransaction([]byte(buf.Bytes()))
-  fmt.Printf("decoderawtx (handler) : %v\n", decoderawtx) 
-  fmt.Printf("decoderawtx type(handler) : %T\n", decoderawtx)
-
-  txsize := decoderawtx.Size 
-  fmt.Printf("txsize (handler) : %v\n", txsize) 
-  fmt.Printf("txsize type(handler) : %T\n", txsize)
-  /*
-    baseSize := msgTx.SerializeSizeStripped()
-    totalSize := msgTx.SerializeSize()
-  
-    // (baseSize * 3) + totalSize
-    return int64((baseSize * (WitnessScaleFactor - 1)) + totalSize)
-
-  */
-
-
-  return c.String(http.StatusOK, txid) 
   
 }
