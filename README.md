@@ -12,7 +12,7 @@ The code is free, if you have your own node running and want a quick and easy gu
 * clone this repo (duh)
 * edit config.ini, and in main.go change the startTLS line to use YOUR certificates instead of mine
 * All the templates and static files can be found in ./views and ./staticfiles. Everything should work out of the box, but adding a personal touch might be nice
-* go run main.go
+* to start the server, run "go run main.go"
 * you'll probably be missing some dependencys... When running the code these dependencys will be shown in STDOUT, just do: "go get github.com/dependency"
 * once you've confirmed everything works, you can compile the code: "go build main.go"
 * you can create a systemd service to restart the server on crash... If you do, don't forget to submit the code to me ;). IF nobody made a service file BEFORE i reach the actual beta-stage, i'll write one myself
