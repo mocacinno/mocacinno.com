@@ -8,3 +8,5 @@ password = <your password here>
 ip = <your ip here>
 port = <your port here>
 logging = true
+cert = <path to your cert>
+privkey = <path to your priv key>
