@@ -44,8 +44,8 @@ func FeeCheckerHandler(c echo.Context) error {
   }
 
   return c.Render(http.StatusOK, "layout.html", map[string]interface{}{
-    "title": "(in)Sufficient Fee checker: outcome for tx " + txid,
-    "description": "here, you'll see the output of my feechecker!!!",
+    "title": "(in)Sufficient Fee checker",
+    "description": "here, you'll see the output of my feechecker for tx "+txid+"!!!",
     "keywords": "mocacinno, usefull, bitcoin, tools, btc, fee, checker",
     "content": template.HTML(output),
   })
