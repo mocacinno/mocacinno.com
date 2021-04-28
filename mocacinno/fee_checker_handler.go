@@ -29,7 +29,13 @@ func FeeCheckerHandler(c echo.Context) error {
   output += fmt.Sprintf("<li>the optimal fee per vbyte to be ~rather~ sure your tx ends up in the next ~6 blocks is: %v sat/vbyte</li>", fee_1_per_vbyte)
   mempoolentry, err := client.GetMempoolEntry(txid)
   if err != nil {
-    return c.String(http.StatusOK, txid + " not found in my mempool") 
+	erroutput := fmt.Sprintf("Oops, it seems like your tx (%v) could not be found in my nodes mempool... This means it was either to old, the fee was so low my node rejected your transaction, your transaction was nonstandard, your transaction was doublespending the same unspent output as an other (unconfirmed) transaction or the amount of transactions being broadcasted to me was so high my node started pruning due to memory constraints... It's also possible my node was restarted recently, and my mempool was emptied in the process...", txid) 
+    return c.Render(http.StatusOK, "layout.html", map[string]interface{}{
+    "title": "(in)Sufficient Fee checker",
+    "description": "txid "+txid+" Not found in my mempool!!!",
+    "keywords": "mocacinno, usefull, bitcoin, tools, btc, fee, checker",
+    "content": template.HTML(erroutput),
+  })
   }
   vsize := mempoolentry.VSize
   output += fmt.Sprintf("<li>your vsize (in vbytes) is %v</li>", vsize)
