@@ -22,7 +22,7 @@ func FeeCheckerHandler(c echo.Context) error {
 
   fee_1, err := client.EstimateSmartFee(6, nil)
   if err != nil {
-    return c.String(http.StatusOK, txid + " my node could not determine the smart fee (6 blocks)") 
+    return c.String(http.StatusOK, txid + " my node could not determine the smart fee (6 blocks)... Retry in a couple of hours, or contact me directly!!!") 
   }
   fee_1_result := fee_1.FeeRate
   fee_1_per_vbyte := *fee_1_result * float64(100000)
