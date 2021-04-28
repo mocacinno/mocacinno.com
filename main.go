@@ -38,6 +38,9 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 		}))
 	}
 	e.Pre(middleware.AddTrailingSlash())
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+		Level: 5,
+	}))
 
 	e.Renderer = &TemplateRegistry{
 		templates: template.Must(template.ParseGlob("views/*.html")),
