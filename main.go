@@ -54,6 +54,7 @@ func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
 	XSSProtection:         "1; mode=block",
 	ContentTypeNosniff:    "nosniff",
+	ReferrerPolicy:    "same-origin",
 	XFrameOptions:         "DENY",
 	HSTSMaxAge:            3600,
 	ContentSecurityPolicy: "default-src 'self'",
