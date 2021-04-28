@@ -20,6 +20,13 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 	return t.templates.ExecuteTemplate(w, name, data)
   }
 
+func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		c.Response().Header().Set(echo.HeaderServer, "MocacinnoServer 1.0")
+		return next(c)
+	}
+}
+
   func main() {
 
 
@@ -42,6 +49,16 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 		Level: 5,
 	}))
 
+	e.Use(ServerHeader)
+	
+	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+	XSSProtection:         "1; mode=block",
+	ContentTypeNosniff:    "nosniff",
+	XFrameOptions:         "DENY",
+	HSTSMaxAge:            3600,
+	ContentSecurityPolicy: "default-src 'self'",
+	}))
+	
 	e.Renderer = &TemplateRegistry{
 		templates: template.Must(template.ParseGlob("views/*.html")),
 	  }
