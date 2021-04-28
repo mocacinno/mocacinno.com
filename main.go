@@ -37,7 +37,6 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_unix}, remote_ip=${remote_ip}, host=${host}, path=${path}, protocol=${protocol}, user_agent=${user_agent}, error=${error}, bytes_in=${bytes_in}, bytes_out=${bytes_out}, header=${header}, query=${query}, form=${form}\n\n",
 		}))
 	}
-	
 	e.Pre(middleware.AddTrailingSlash())
 
 	e.Renderer = &TemplateRegistry{
@@ -66,5 +65,6 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
     e.GET("/page/links/", handler.UsefullLinksHandler)
 	*/
 	e.Static("/static", "staticfiles")
+	e.Static("/fonts", "staticfiles")
 	e.Logger.Fatal(e.StartTLS(cfg.Section("server").Key("ip").String() + ":" + cfg.Section("server").Key("port").String(), cfg.Section("server").Key("cert").String() , cfg.Section("server").Key("privkey").String()))
 }
