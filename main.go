@@ -28,20 +28,28 @@ func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
   func main() {
-
+	
 
 	cfg, err := ini.Load("config.ini")
     if err != nil {
         fmt.Printf("Fail to read ini file: %v", err)
         os.Exit(1)
     }
+	
+	f, err := os.OpenFile(cfg.Section("server").Key("logpath").String(), os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Printf("cannot open '%v', (%s)", cfg.Section("server").Key("logpath").String(), err.Error())
+		os.Exit(-1)
+	}
 
+	defer f.Close()
 
 	e := echo.New()
 	logging, err := cfg.Section("server").Key("logging").Bool()
 	if logging {
 		e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_unix}, remote_ip=${remote_ip}, host=${host}, path=${path}, protocol=${protocol}, user_agent=${user_agent}, error=${error}, bytes_in=${bytes_in}, bytes_out=${bytes_out}, header=${header}, query=${query}, form=${form}\n\n",
+			Output: f,
 		}))
 	}
 	e.Pre(middleware.AddTrailingSlash())
@@ -87,5 +95,6 @@ func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
 	*/
 	e.Static("/static", "staticfiles")
 	e.Static("/fonts", "staticfiles")
+	e.File("/favicon.ico", "staticfiles/favicon.ico")
 	e.Logger.Fatal(e.StartTLS(cfg.Section("server").Key("ip").String() + ":" + cfg.Section("server").Key("port").String(), cfg.Section("server").Key("cert").String() , cfg.Section("server").Key("privkey").String()))
 }

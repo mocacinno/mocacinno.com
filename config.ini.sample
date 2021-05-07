@@ -10,3 +10,4 @@ port = <your port here>
 logging = true
 cert = <path to your cert>
 privkey = <path to your priv key>
+logpath = <path to where you want the log>
