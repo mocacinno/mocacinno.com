@@ -21,4 +21,5 @@ The code is free, if you have your own node running and want a quick and easy gu
 BTW: i'd still like to be mentioned in the credits (maybe a link to mocacinno.com) in case you run my code... And if you run it for profit, a tip to my tipjar would certainly be appreciated...
 
 Tipjar: BTC/BCH: 1MocACiWLM8bYn8pCrYjy6uHq4U3CkxLaa
+
 ETH: 0xD65400079AdAba8cCcaD4f3D20D21f13B6240514
