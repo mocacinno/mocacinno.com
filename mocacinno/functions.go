@@ -13,6 +13,12 @@ import (
 	"encoding/hex"
 )
 
+func txToHex(tx *wire.MsgTx) string {
+	buf := bytes.NewBuffer(make([]byte, 0, tx.SerializeSize()))
+	tx.Serialize(buf)
+	return hex.EncodeToString(buf.Bytes())
+}
+
 func Client(cfg *ini.File) *rpcclient.Client {
 	connCfg := &rpcclient.ConnConfig{
 		Host:         cfg.Section("bitcoind").Key("host").String() + ":" + cfg.Section("bitcoind").Key("port").String(),

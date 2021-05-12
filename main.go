@@ -76,13 +76,15 @@ func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
 	e.GET("/", handler.HomeHandler)
 	e.GET("/page/feechecker/", handler.FeeCheckerHandler)
 	e.POST("/page/feechecker/", mocacinno.FeeCheckerHandler)
+	e.GET("/page/getraw/", handler.GetRawHandler)
+	e.POST("/page/getraw/", mocacinno.GetRawHandler)
 	/*
 	client := mocacinno.Client(cfg)
 	blockcount := mocacinno.Blockcount(client)
 	fmt.Printf("%v\n", blockcount) 
 	*/
 	/*
-	e.GET("/page/getraw/", handler.GetRawHandler)
+	
 	e.GET("/page/rawdecode/", handler.RawDecodeHandler)
     e.GET("/page/createraw/", handler.CreateRawHandler)
     e.GET("/page/txpusher/", handler.TxPusherHandler)
