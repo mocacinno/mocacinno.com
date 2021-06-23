@@ -29,7 +29,6 @@ func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
 
   func main() {
 	
-
 	cfg, err := ini.Load("config.ini")
     if err != nil {
         fmt.Printf("Fail to read ini file: %v", err)
